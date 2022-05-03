@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api-TalkCond/src/config"
 	"api-TalkCond/src/router"
 	"fmt"
 	"log"
@@ -8,9 +9,11 @@ import (
 )
 
 func main() {
-	fmt.Println("Rodando a API")
+	config.Carregar()
 
 	r := router.Generate()
 
-	log.Fatal(http.ListenAndServe(":5000", r))
+	fmt.Printf("Escutando na porta %d", config.Porta)
+
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Porta), r))
 }

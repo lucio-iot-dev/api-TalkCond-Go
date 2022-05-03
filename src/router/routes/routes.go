@@ -13,7 +13,7 @@ type Route struct {
 	function               func(http.ResponseWriter, *http.Request)
 	RequiresAuthentication bool
 }
-
+// ToSetUp puts all routes inside the router
 func ToSetUp(r *mux.Router) *mux.Router {
 	routes := routesUsers
 
