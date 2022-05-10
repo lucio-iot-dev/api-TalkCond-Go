@@ -10,5 +10,6 @@ type User struct {
 	Nick string `json:"nick,omitempty"`
 	Email string `json:"email,omitempty"`
 	Senha string `json:"senha,omitempty"`
+	Apartamento uint64 `json:"apartamento,omitempty"`
 	CriadoEm time.Time `json:"CriadoEm,omitempty"`
 }
