@@ -25,7 +25,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if erro = user.Prepare(); erro != nil {
+	if erro = user.Prepare("cadastro"); erro != nil {
 		answers.Erro(w, http.StatusBadRequest, erro)
 		return
 	}
@@ -48,7 +48,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // SearchUsers search all users saved in the database
 func SearchUsers(w http.ResponseWriter, r *http.Request) {
-	nameOrNick := strings.ToLower(r.URL.Query().Get("user"))
+	nameOrNick := strings.ToLower(r.URL.Query().Get("usuarios"))
 	db, erro := banco.Conectar()
 	if erro != nil {
 		answers.Erro(w, http.StatusInternalServerError, erro)

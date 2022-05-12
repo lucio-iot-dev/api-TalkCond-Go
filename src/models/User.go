@@ -19,15 +19,15 @@ type User struct {
 	CriadoEm    time.Time `json:"CriadoEm,omitempty"`
 }
 
-func (user *User) Prepare() error {
-	if erro := user.validate(); erro != nil {
+func (user *User) Prepare(stage string) error {
+	if erro := user.validate(stage); erro != nil {
 		return erro
 	}
 	user.format()
 	return nil
 }
 
-func (user *User) validate() error {
+func (user *User) validate(stage string) error {
 	if user.Nome == "" {
 		return errors.New("O nome é obrigatório e não pode estar em branco")
 	}
@@ -42,9 +42,9 @@ func (user *User) validate() error {
 		return errors.New("O e-mail inserido é inválido")
 	}
 
-	// if stage == "cadastro" && user.Senha == "" {
-	// 	return errors.New("A senha é obrigatória e não pode estar em branco")
-	// }
+	if stage == "cadastro" && user.Senha == "" {
+		return errors.New("A senha é obrigatória e não pode estar em branco")
+	}
 
 	if user.Senha == "" {
 		return errors.New("A senha é obrigatório e não pode estar em branco")

@@ -16,7 +16,7 @@ func NewUsersRepositories(db *sql.DB) *Users {
 
 func (repository Users) CreateUser(user models.User) (uint64, error) {
 	statement, erro := repository.db.Prepare(
-		"insert into usuarios (nome, nick, email, senha, apartamento) values(?,?, ?, ?, ?)",
+		"insert into usuarios (nome, nick, email, senha, apartamento) values(?, ?, ?, ?, ?)",
 	)
 	if erro != nil {
 		return 0, erro
@@ -38,7 +38,7 @@ func (repository Users) Search(nameOrNick string) ([]models.User, error) {
 	nameOrNick = fmt.Sprintf("%%%s%%", nameOrNick)
 
 	lines, erro := repository.db.Query(
-		"select id, nome, nick, email, apartamento, criadaEm from usuarios where nome LIKE ?",
+		"select id, nome, nick, email, apartamento, criadoEm from usuarios where nome LIKE ? or nick LIKE ?",
 		nameOrNick, nameOrNick,
 	)
 	if erro != nil {
@@ -47,23 +47,23 @@ func (repository Users) Search(nameOrNick string) ([]models.User, error) {
 
 	defer lines.Close()
 
-	var users[]models.User
+	var users []models.User
 
 	for lines.Next() {
 		var user models.User
-		
+
 		if erro = lines.Scan(
 			&user.ID,
 			&user.Nome,
 			&user.Nick,
-			user.Email,
-      user.Apartamento,
-			user.CriadoEm,
+			&user.Email,
+			&user.Apartamento,
+			&user.CriadoEm,
 		); erro != nil {
 			return nil, erro
 		}
 
-		users = append(users,user)
+		users = append(users, user)
 
 	}
 	return users, nil
